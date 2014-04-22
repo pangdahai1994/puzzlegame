@@ -3,8 +3,10 @@ package UI;
 import java.awt.Graphics;
 
 public class GameFrame extends ZFrame{
+	Graphics g;
     GameFrame(){
     	this.FullScreen();
-    	Graphics g=this.getGraphics();
+    	g=this.getGraphics();
     }
+    
 }

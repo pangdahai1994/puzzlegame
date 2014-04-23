@@ -25,7 +25,7 @@ public class MainFrame {
     static ZFrame mainframe;
     static Timer timer2;
     static MediaPlayer mp;
-    static BufferedImage Mimage=new BufferedImage(1366,768,BufferedImage.TYPE_INT_RGB);;
+    static BufferedImage Mimage=new BufferedImage(1366,768,BufferedImage.TYPE_INT_RGB);
     static ArrayList<String> players=new ArrayList<String>(3);
 	public static void main(String[] args) throws IOException {
 		//TODO Auto-generated method stub
@@ -60,7 +60,7 @@ public class MainFrame {
 		        	//¿ªÊ¼ÓÎÏ·
 		        	timer2.cancel();
 		        	state=2;
-		        	startframe2();
+		        	GameFrame gf=new GameFrame();
 		        	
 		        }
    		     }

@@ -1,13 +1,46 @@
 package DataServer;
 
+import Objcts.*;
+
 public class GameTasker {
 	boolean added=true;
 	boolean broken=false;    //是否存在未消除的
 	int addscore=0;                  //加多少分 是否已加
-    void rndnew(int[][] brick){
+	public BrickContainer brickc[][]=new BrickContainer[9][9];
+	
+	GameTasker(){
+		for (int i=0;i<=8;i++){
+			for (int j=0;j<=8;j++){
+				brickc[i][j]=new BrickContainer();
+				brickc[i][j]
+			}
+		}
+	}
+	
+	BrickContainer[][] getbricks(){
+		return brickc;
+	}
+	
+	void quchong(){
+		while (havexiao()){
+			rndnew();
+		}
+	}
+	
+    void rndnew(){
     	for (int i=0;i<=9;i++){
     		for (int j=0;j<=9;j++){
-    			brick[i][j]=(int)(Math.random()*6)+1;
+    			brickc[i][j]=new BrickContainer();
+    		}
+    	}
+    }
+    
+    boolean havexiao(){
+    	broken=false;
+    	for (int i=0;i<=7;i++){
+    		for (int j=0;j<=7;j++){
+    			BrickContainer p=new BrickContainer();
+
     		}
     	}
     }

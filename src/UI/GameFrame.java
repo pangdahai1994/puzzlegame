@@ -1,5 +1,7 @@
 package UI;
 
+import Objcts.*;
+import DataServer.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
@@ -16,7 +18,8 @@ import javax.imageio.ImageIO;
 import UI.MainFrame.MyTask1;
 
 public class GameFrame extends ZFrame{
-	static int brick[][]=new int[10][10];
+	static BrickContainer brick[][]=new BrickContainer[9][9];
+	static GameTasker tasker=new GameTasker();
 	static Graphics g;
     static BufferedImage Mimage=new BufferedImage(1366,768,BufferedImage.TYPE_INT_RGB);
     GameFrame(){

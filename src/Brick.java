@@ -8,4 +8,10 @@ public class Brick {
     Brick(){
     	this.style=(int)(Math.random()*6);
     }
+    int x(){
+    	return x;
+    }
+    int y(){
+    	return y;
+    }
 }

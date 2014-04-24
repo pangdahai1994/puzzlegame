@@ -31,6 +31,8 @@ public class MainFrame {
 		//TODO Auto-generated method stub
         //displaymode dpm=new displaymode();
         //dpm.setto1024();
+		new GameFrame();
+		/*
         mainframe=new ZFrame();
         mainframe.FullScreen();
         BufferedReader br=new BufferedReader(new FileReader("playerInfo\\players"));
@@ -60,12 +62,21 @@ public class MainFrame {
 		        	//¿ªÊ¼ÓÎÏ·
 		        	timer2.cancel();
 		        	state=2;
-		        	GameFrame gf=new GameFrame();
+		        	try {
+						GameFrame gf=new GameFrame();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 		        	
 		        }
    		     }
    	    }); 
         startframe0();
+        */
 	}
     
 	public static void startframe0(){

@@ -30,6 +30,7 @@ public class MainFrame {
     static int state=0;
     static int bg=1,jia=1,change=0,playernum=0,mousex,mousey;
     static ZFrame mainframe;
+    static GameFrame gf;
     static Timer timer2;
     static MediaPlayer mp;
     static BufferedImage Mimage=new BufferedImage(1366,768,BufferedImage.TYPE_INT_RGB);
@@ -95,15 +96,15 @@ public class MainFrame {
 		        if ((state==1)&&(mousex<1240)&&(mousex>918)&&(mousey>533)&&(mousey<592)) System.exit(0);
 		        if ((state==1)&&(mousex<1240)&&(mousex>918)&&(mousey>364)&&(mousey<432)){
 		        	//开始游戏
-		        	timer2.cancel();
+		        	//timer2.cancel();
 		        }
 		        if ((mousex<1074)&&(mousex>918)&&(mousey>453)&&(mousey<502)){
 		        	//单机游戏
-		        	//timer2.cancel();
+		        	timer2.cancel();
 		        	//state=2;
 		        	try {
-						GameFrame gf=new GameFrame();
-						gf.setAlwaysOnTop(true);
+						gf=new GameFrame();
+						//gf.setAlwaysOnTop(true);
 						mainframe.setAlwaysOnTop(false);
 			        	mainframe.removeAll();
 			        	mainframe.setVisible(false);

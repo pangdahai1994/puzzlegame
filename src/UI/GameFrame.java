@@ -2,7 +2,9 @@ package UI;
 
 import Objcts.*;
 import DataServer.*;
+
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,8 +21,9 @@ import UI.MainFrame.MyTask1;
 
 public class GameFrame extends ZFrame{
 	static boolean changing=false;
-	static int ii=1;
+	static int ii=1,x1=0,highest=0;;
 	static GameTasker tasker=new GameTasker();
+	static int time=60000;
 	static Graphics g;
     static BufferedImage Mimage=new BufferedImage(1366,768,BufferedImage.TYPE_INT_RGB);
     static int mousex=0,mousey=0;
@@ -32,6 +35,8 @@ public class GameFrame extends ZFrame{
     	for (i=1;i<=6;i++){
     	    iimage[i]= ImageIO.read(new FileInputStream("bgs\\b"+i+".png"));
     	}
+    	iimage[0]= ImageIO.read(new FileInputStream("ui\\label2.png"));
+    	
     	this.FullScreen();
     	g=this.zpanel.getGraphics();
     	this.addMouseMotionListener(new MouseAdapter(){
@@ -58,39 +63,76 @@ public class GameFrame extends ZFrame{
 		     }
    	    }); 
         Timer tasker=new Timer();
-        tasker.schedule(new brushtask(),10, 20);
+        tasker.schedule(new brushtask(),10, 40);
     }
     
 	static class brushtask extends java.util.TimerTask{ 
         public void run() {
+        	time-=80;
         	BufferedImage image;
         	int i,j=0;
 				try {
 					ii++;
 					if (ii>10) ii=1;
-					image = ImageIO.read(new FileInputStream("bg2\\bg ("+ii+").JPG"));
-			        Mimage.getGraphics().drawImage(image,0,0,1366,768,null);
-			        
-			        if((mousedown)&&(tasker.mousex(mousedownx)>=0)&&(tasker.mousey(mousedowny)>=0)&&(!changing)){
-			        	if((mousex-mousedownx>=40)&&(tasker.mousex(mousedownx)<8)){
-			        		tasker.changedh(tasker.mousex(mousedownx), tasker.mousey(mousedowny), tasker.mousex(mousedownx)+1, tasker.mousey(mousedowny));
-			        		mousedown=false;
-			        	}else
-			        	if((mousey-mousedowny>=40)&&(tasker.mousey(mousedowny)<8)){
-			        		mousedown=false;
-			        		tasker.changedh(tasker.mousex(mousedownx), tasker.mousey(mousedowny), tasker.mousex(mousedownx), tasker.mousey(mousedowny)+1);
-			        	}else
-                        if((mousex-mousedownx<=-40)&&(tasker.mousex(mousedownx)>0)){
-                        	tasker.changedh(tasker.mousex(mousedownx), tasker.mousey(mousedowny), tasker.mousex(mousedownx)-1, tasker.mousey(mousedowny));
-                        	mousedown=false;
-                        }else
-			        	if((mousey-mousedowny<=-40)&&(tasker.mousey(mousedowny)>0)){
-			        		tasker.changedh(tasker.mousex(mousedownx), tasker.mousey(mousedowny), tasker.mousex(mousedownx), tasker.mousey(mousedowny)-1);
-			        		mousedown=false;
-			        	}
-			        }
+		        	BufferedImage img=null;
+		        	try {
+		        	x1++;
+		        	if (x1<10){
+						img=ImageIO.read(new FileInputStream("ui\\ui2\\bg00"+x1+".jpg"));
+		        	}else if (x1<100){
+		        		img=ImageIO.read(new FileInputStream("ui\\ui2\\bg0"+x1+".jpg"));
+		        	}else if (x1<=125){
+		        		img=ImageIO.read(new FileInputStream("ui\\ui2\\bg"+x1+".jpg"));
+		        	}
+		        	Mimage.getGraphics().drawImage(img,0,0,1366,768,null);
+		        	Mimage.getGraphics().drawImage(iimage[0],0,0,1366,768,null);
+		        	Graphics g=Mimage.getGraphics();
+		        	g.setFont(new Font("宋体",Font.PLAIN,32));
+		        	g.drawString(""+(tasker.score*100), 300, 136);
+		        	g.drawString(""+(time/1000), 370, 251);
+		        	g.drawString("历史最高分："+highest*100, 270, 400);
+		        	if (time<=0){
+		        		if (tasker.score>highest){
+		        			highest=tasker.score;
+		        		}
+		        		time=60000;
+		        		tasker.score=0;
+		        		tasker.rndnew();
+		        	}
+		        	
+		        	}catch(Exception e){
+		        		e.printStackTrace();
+		        	}
+		        	if (x1==125) x1=0;
 			    
-			        
+					changing=false;
+					for (i=0;i<9;i++){
+		        		for (j=0;j<9;j++){
+		        			if (((tasker.brickc[i][j].brick.locatx!=tasker.brickc[i][j].brick.targetx)||(tasker.brickc[i][j].brick.locaty!=tasker.brickc[i][j].brick.targety)))
+		        		    changing=true;
+		        		}
+		        	}
+					
+					 if((!tasker.havexiao())&&(tasker.changeuseful)&&(mousedown)&&(tasker.mousex(mousedownx)>=0)&&(tasker.mousey(mousedowny)>=0)&&(!changing)){
+				        	if((mousex-mousedownx>=20)&&(tasker.mousex(mousedownx)<8)){
+				        		tasker.changedh(tasker.mousex(mousedownx), tasker.mousey(mousedowny), tasker.mousex(mousedownx)+1, tasker.mousey(mousedowny));
+				        		mousedown=false;
+				        	}else
+				        	if((mousey-mousedowny>=20)&&(tasker.mousey(mousedowny)<8)){
+				        		mousedown=false;
+				        		tasker.changedh(tasker.mousex(mousedownx), tasker.mousey(mousedowny), tasker.mousex(mousedownx), tasker.mousey(mousedowny)+1);
+				        	}else
+	                        if((mousex-mousedownx<=-20)&&(tasker.mousex(mousedownx)>0)){
+	                        	tasker.changedh(tasker.mousex(mousedownx), tasker.mousey(mousedowny), tasker.mousex(mousedownx)-1, tasker.mousey(mousedowny));
+	                        	mousedown=false;
+	                        }else
+				        	if((mousey-mousedowny<=-20)&&(tasker.mousey(mousedowny)>0)){
+				        		tasker.changedh(tasker.mousex(mousedownx), tasker.mousey(mousedowny), tasker.mousex(mousedownx), tasker.mousey(mousedowny)-1);
+				        		mousedown=false;
+				        	}
+				        }
+					 
+						
 					for (i=0;i<9;i++){
 		        		for (j=0;j<9;j++){
 					        Mimage.getGraphics().drawImage(iimage[tasker.brickc[i][j].brick.style],600+tasker.brickc[i][j].brick.locatx,100+tasker.brickc[i][j].brick.locaty,120,120, null);
@@ -99,7 +141,6 @@ public class GameFrame extends ZFrame{
 					        	changing=true;
 					        	if (tasker.brickc[i][j].brick.locaty>=tasker.brickc[i][j].brick.targety){
 					        		tasker.brickc[i][j].brick.locaty=tasker.brickc[i][j].brick.targety;
-					        		changing=false;
 					        	}
 					        }
 					        if (tasker.brickc[i][j].brick.locaty>tasker.brickc[i][j].brick.targety){
@@ -107,7 +148,6 @@ public class GameFrame extends ZFrame{
 					        	changing=true;
 					        	if (tasker.brickc[i][j].brick.locaty<=tasker.brickc[i][j].brick.targety){
 					        		tasker.brickc[i][j].brick.locaty=tasker.brickc[i][j].brick.targety;
-					        		changing=false;
 					        	}
 					        }
 					        if (tasker.brickc[i][j].brick.locatx<tasker.brickc[i][j].brick.targetx){
@@ -115,7 +155,6 @@ public class GameFrame extends ZFrame{
 					        	tasker.brickc[i][j].brick.locatx+=tasker.brickc[i][j].brick.movespeedx;
 					        	if (tasker.brickc[i][j].brick.locatx>=tasker.brickc[i][j].brick.targetx){
 					        		tasker.brickc[i][j].brick.locatx=tasker.brickc[i][j].brick.targetx;
-					        		changing=false;
 					        	}
 					        }
 					        if (tasker.brickc[i][j].brick.locatx>tasker.brickc[i][j].brick.targetx){
@@ -123,11 +162,11 @@ public class GameFrame extends ZFrame{
 					        	tasker.brickc[i][j].brick.locatx-=tasker.brickc[i][j].brick.movespeedx;
 					        	if (tasker.brickc[i][j].brick.locatx<=tasker.brickc[i][j].brick.targetx){
 					        		tasker.brickc[i][j].brick.locatx=tasker.brickc[i][j].brick.targetx;
-					        		changing=false;
 					        	}
 					        }
 		        		}
 					}
+                    
 					tasker.moving=changing;
 					if ((!changing)&&(!tasker.changeuseful)){
 			        	tasker.changecancel();
@@ -136,10 +175,7 @@ public class GameFrame extends ZFrame{
 					if ((!changing)&&(tasker.havexiao())){
 			        	tasker.breakbrick();
 			        }
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

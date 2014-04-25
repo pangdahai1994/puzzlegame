@@ -8,7 +8,7 @@ public class GameTasker {
 	public boolean moving=false;  //是否有砖块正在移动
 	public boolean added=true;
 	public boolean broken=false;    //是否存在未消除的
-	int score=0;                  //加多少分 是否已加
+	public int score=0;                  //加多少分 是否已加
 	public static BrickContainer brickc[][]=new BrickContainer[9][9];
 	
 	public GameTasker(){
@@ -156,7 +156,7 @@ public class GameTasker {
     	
     	for (int i=8;i>=0;i--){
     		for (int j=0;j<=8;j++){
-    			score++;
+    			if (brickc[i][j].brick.style<0) score++;
     		    if (brickc[i][j].brick.style<0){
     			    for (int k=j;k>0;k--){
     			    	brickc[i][k].brick=brickc[i][k-1].brick;

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -16,11 +18,14 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import javax.imageio.ImageIO;
+import javax.swing.JTextField;
 
 import UI.MediaPlayer.PlayThread;
 
 public class MainFrame {
 	//static int jindu=0;
+	static Font font=new Font("宋体",Font.PLAIN,16);
+	static int framey=-700;
 	static int x1=0,y1=0; //开场动画
     static int state=0;
     static int bg=1,jia=1,change=0,playernum=0,mousex,mousey;
@@ -29,40 +34,23 @@ public class MainFrame {
     static MediaPlayer mp;
     static BufferedImage Mimage=new BufferedImage(1366,768,BufferedImage.TYPE_INT_RGB);
     static BufferedImage[] button=new BufferedImage[10];
-    static BufferedImage[] start1=new BufferedImage[328];
-    static BufferedImage[] start2=new BufferedImage[126];
     static ArrayList<String> players=new ArrayList<String>(3);
 	public static void main(String[] args) throws IOException {
 		//TODO Auto-generated method stub
         //displaymode dpm=new displaymode();
         //dpm.setto1024();
 		//new GameFrame();
-		button[0] = ImageIO.read(new FileInputStream("按钮1.png"));
-		button[1] = ImageIO.read(new FileInputStream("按钮2.png"));
-		button[2] = ImageIO.read(new FileInputStream("开始游戏.png"));
-		button[3] = ImageIO.read(new FileInputStream("继续游戏.png"));
-		button[4] = ImageIO.read(new FileInputStream("结束游戏.png"));
-		for (int i=1;i<=327;i++){
-			if (i<10){
-				start1[i]=ImageIO.read(new FileInputStream("ui\\ui1\\bg00"+i+".jpg"));
-        	}else if (i<100){
-        		start1[i]=ImageIO.read(new FileInputStream("ui\\ui1\\bg0"+i+".jpg"));
-        	}else{
-        		start1[i]=ImageIO.read(new FileInputStream("ui\\ui1\\bg"+i+".jpg"));
-        	}
-		}
-		for (int i=1;i<=125;i++){
-			if (i<10){
-				start2[i]=ImageIO.read(new FileInputStream("ui\\ui2\\bg00"+i+".jpg"));
-        	}else if (i<100){
-        		start2[i]=ImageIO.read(new FileInputStream("ui\\ui2\\bg0"+i+".jpg"));
-        	}else{
-        		start2[i]=ImageIO.read(new FileInputStream("ui\\ui2\\bg"+i+".jpg"));
-        	}
-		}
+		button[0] = ImageIO.read(new FileInputStream("ui\\frame.png"));
+		button[1] = ImageIO.read(new FileInputStream("ui\\button1.png"));
+		button[2] = ImageIO.read(new FileInputStream("ui\\button2.png"));
+		button[3] = ImageIO.read(new FileInputStream("ui\\button3.png"));
+		button[4] = ImageIO.read(new FileInputStream("ui\\button4.png"));
+		button[5] = ImageIO.read(new FileInputStream("ui\\frame.png"));
 		
         mainframe=new ZFrame();
+        mainframe.setAlwaysOnTop(true);
         mainframe.FullScreen();
+        
         BufferedReader br=new BufferedReader(new FileReader("playerInfo\\players"));
         String line=null;
         while ((line=br.readLine())!=null){
@@ -77,48 +65,62 @@ public class MainFrame {
 				 mousey=event.getY();
 			 }
    	    });
+        
+        mainframe.addKeyListener(new KeyListener(){
+
+        	   public void keyPressed(KeyEvent e) {
+        	    // TODO 自动生成方法存根
+        	       if (e.getKeyCode()==27){
+        	    	   if (state==0) x1=327;
+        	       };
+        	   }
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
         mainframe.addMouseListener(new MouseAdapter(){
-   		     public void mousePressed(MouseEvent event){
+   		     public void mouseClicked(MouseEvent event){
 		       // if (jindu<1080) jindu=1080;
-		        if (state==0) x1=325;
 		        
-		        if ((state==1)&&(mousex<790)&&(mousex>480)&&(mousey>480)&&(mousey<585)) System.exit(0);
-		        if ((state==1)&&(mousex<790)&&(mousex>480)&&(mousey>280)&&(mousey<385)){
-		        	//继续游戏
-		        	timer2.cancel();
-		        }
-		        if ((state==1)&&(mousex<790)&&(mousex>480)&&(mousey>80)&&(mousey<185)){
+		        if ((state==1)&&(mousex<1240)&&(mousex>918)&&(mousey>533)&&(mousey<592)) System.exit(0);
+		        if ((state==1)&&(mousex<1240)&&(mousex>918)&&(mousey>364)&&(mousey<432)){
 		        	//开始游戏
 		        	timer2.cancel();
-		        	state=2;
+		        }
+		        if ((mousex<1074)&&(mousex>918)&&(mousey>453)&&(mousey<502)){
+		        	//单机游戏
+		        	//timer2.cancel();
+		        	//state=2;
 		        	try {
 						GameFrame gf=new GameFrame();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
+						gf.setAlwaysOnTop(true);
+						mainframe.setAlwaysOnTop(false);
+			        	mainframe.removeAll();
+			        	mainframe.setVisible(false);
+					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-		        	
 		        }
    		     }
    	    }); 
         startframe0();
 	}
-    
+	
 	public static void startframe0(){
 		mp = new MediaPlayer("ui\\mp3\\Sound1.mp3");
-		//mainframe.paint("bg.bmp", 0, 0);
 		Timer timer = new Timer();
-	/*	Graphics painter=mainframe.zpanel.getGraphics();
-		painter.setColor(Color.green);
-		painter.fill3DRect(120, 674, 1082, 70, false);
-		painter.setColor(Color.white);
-		painter.setFont(new Font("宋体",Font.ITALIC,30));
-		painter.drawString("载入中...", 600, 650);
-		mainframe.paint("zairu.png",110,666);*/
-        timer.schedule(new MyTask1(),0, 15);
+        timer.schedule(new MyTask1(),0, 40);
 	}
 	
 	public static void changeframe(){
@@ -128,17 +130,17 @@ public class MainFrame {
 	}
 	
 	public static void startframe2(){
-		//mp.stopmedia();
-		//changeframe();
-        //mp = new MediaPlayer("bgm_ivent8.ogg");
-		//mainframe.paint("bg.bmp", 0, 0);
-		//Graphics painter=mainframe.zpanel.getGraphics();
-		//painter.setColor(Color.green);
-		//painter.fill3DRect(120, 674, 1082, 70, false);
+		mp.stopmedia();
+		changeframe();
+        mp = new MediaPlayer("bgm_ivent8.ogg");
+		mainframe.paint("bg.bmp", 0, 0);
+		Graphics painter=mainframe.zpanel.getGraphics();
+		painter.setColor(Color.green);
+		painter.fill3DRect(120, 674, 1082, 70, false);
 		//painter.setColor(Color.white);
 		//painter.setFont(new Font("宋体",Font.ITALIC,30));
 		//painter.drawString("载入中...", 600, 650);
-		//mainframe.paint("zairu.png",110,666);
+		mainframe.paint("zairu.png",110,666);
 	}
 	
 	static class MyTask1 extends java.util.TimerTask{ 
@@ -146,12 +148,22 @@ public class MainFrame {
         	BufferedImage img=null;
         	try {
         	x1++;
-        	Mimage.getGraphics().drawImage(start1[x1],0,0,1366,768,null);
-        	mainframe.paint(Mimage);
-        	if (x1==327){
-        		startframe1()
-        		this.cancel();
+        	if ((mp.hasStop)&&(x1>100)) {
+        		mp=new MediaPlayer("ui\\mp3\\Sound2.mp3"); 
         	}
+        	if (x1<10){
+				img=ImageIO.read(new FileInputStream("ui\\ui1\\bg00"+x1+".jpg"));
+        	}else if (x1<100){
+        		img=ImageIO.read(new FileInputStream("ui\\ui1\\bg0"+x1+".jpg"));
+        	}else if (x1<=327){
+        		img=ImageIO.read(new FileInputStream("ui\\ui1\\bg"+x1+".jpg"));
+        	}else{
+            	this.cancel();
+            	startframe1();
+            }
+        	
+        	Mimage.getGraphics().drawImage(img,0,0,1366,768,null);
+        	mainframe.paint(Mimage);
         	}catch(Exception e){
         		e.printStackTrace();
         	}
@@ -163,7 +175,7 @@ public class MainFrame {
 		//timer1.schedule(new movebg(),10, 20);
 		state=1;
 		timer2 = new Timer();
-		timer2.schedule(new drawbg(),0, 25);
+		timer2.schedule(new drawbg(),0, 40);
 	}
 	
 	static class drawbg extends java.util.TimerTask{ 
@@ -184,31 +196,19 @@ public class MainFrame {
 	            }
 	        	if (y1==125) y1=0;
 	        	Mimage.getGraphics().drawImage(image, 0,0,1366,768, null);
-	        	
-				image = button[2];
-				Mimage.getGraphics().drawImage(image, 535,105, null);
-				if ((mousex<790)&&(mousex>480)&&(mousey>80)&&(mousey<185))
-				    image = button[0];
-				else
-					image = button[1];
-				Mimage.getGraphics().drawImage(image, 400,0, null);
-				
-				image = button[3];
-				Mimage.getGraphics().drawImage(image, 535,305, null);
-				if ((mousex<790)&&(mousex>480)&&(mousey>280)&&(mousey<385))
-				    image = button[0];
-				else
-					image = button[1];
-				Mimage.getGraphics().drawImage(image, 400,200, null);
-				
-				image = button[4];
-				Mimage.getGraphics().drawImage(image, 535,505, null);
-				if ((mousex<790)&&(mousex>480)&&(mousey>480)&&(mousey<585))
-				    image = button[0];
-				else
-					image = button[1];
-				Mimage.getGraphics().drawImage(image, 400,400, null);
-				
+	        
+	        	if (framey<0) framey+=100;
+	        	if (framey>0) framey=0;
+				Mimage.getGraphics().drawImage(button[0], 0,framey, null);
+		
+				if ((mousex<1240)&&(mousex>918)&&(mousey>364)&&(mousey<432))
+				    Mimage.getGraphics().drawImage(button[1], 0,0, null);
+				if ((mousex<1074)&&(mousex>918)&&(mousey>453)&&(mousey<502))
+				    Mimage.getGraphics().drawImage(button[2], 0,0, null);
+				if ((mousex<1240)&&(mousex>1085)&&(mousey>453)&&(mousey<502))
+				    Mimage.getGraphics().drawImage(button[3], 0,0, null);
+				if ((mousex<1240)&&(mousex>918)&&(mousey>533)&&(mousey<592))
+				    Mimage.getGraphics().drawImage(button[4], 0,0, null);
 				
 				mainframe.paint(Mimage);
 			} catch (FileNotFoundException e) {

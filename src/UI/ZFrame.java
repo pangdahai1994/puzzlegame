@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import Objcts.ZButton;
+
 public class ZFrame extends JFrame {
 	Toolkit tk=Toolkit.getDefaultToolkit();
 	String titlestring="ZFrame";
@@ -44,6 +46,7 @@ public class ZFrame extends JFrame {
 	ZFrame(int width,int height){
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
+		zpanel.setLayout(null);
 		this.setVisible(true);
 	    this.setSize(width,height);
         this.setTitle(titlestring);
@@ -307,4 +310,26 @@ public class ZFrame extends JFrame {
 		});	
 		zpanel.paint(state1, locationx, locationy, 0, 0, width, height);
 	}
+	
+	/*public void addZButton(final ZButton zb){
+		this.addMouseListener(new MouseAdapter(){
+			 public void mousePressed(MouseEvent event){
+		            int x=event.getX(),y=event.getY();
+		            if ((x>=zb.x1)&&(x<=zb.x2)&&(y>=zb.y1)&&(y<=zb.y2)){
+		            	zpanel.paint(state3, locationx, locationy, 0, 0, width, height);
+		            };
+		     }
+		});
+		this.addMouseMotionListener(new MouseAdapter(){
+			 public void mouseMoved(MouseEvent event){
+		            int x=event.getX(),y=event.getY();
+		            if ((x>=locationx)&&(x<=locationx+width)&&(y>=locationy)&&(y<=locationy+height)){
+		            	zpanel.paint(state2, locationx, locationy, 0, 0, width, height);
+		            }else{
+		            	zpanel.paint(state1, locationx, locationy, 0, 0, width, height);
+		            }
+		     }
+		});	
+		zpanel.paint(state1, locationx, locationy, 0, 0, width, height);
+	}*/
 }

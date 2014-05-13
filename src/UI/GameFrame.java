@@ -30,12 +30,15 @@ public class GameFrame extends ZFrame{
     static BufferedImage Mimage=new BufferedImage(1366,768,BufferedImage.TYPE_INT_RGB);
     static BufferedImage Mimage2=new BufferedImage(1366,768,BufferedImage.TYPE_INT_RGB);  //±³¾°
     static BufferedImage Mimage3=new BufferedImage(1366,768,BufferedImage.TYPE_INT_RGB); //m2µÄ±£´æ
+    static BufferedImage yy=new BufferedImage(2800,1600,BufferedImage.TYPE_INT_RGB);
     static int mousex=0,mousey=0;
     static int mousedownx=0,mousedowny=0,mouseupx=0,mouseupy=0;
     static boolean mousedown=false,mouseup=false;
     static BufferedImage iimage[]=new BufferedImage[8];
     static ZFrame zf;
     GameFrame() throws FileNotFoundException, IOException{
+    	yy= ImageIO.read(new FileInputStream("ui\\yy.png"));
+    	
     	zf=this;
     	this.FullScreen();
     	int i = 0;
@@ -86,6 +89,10 @@ public class GameFrame extends ZFrame{
         			Mimage.getGraphics().drawImage(iimage[tasker.brickc[i][j].brick.style],600+tasker.brickc[i][j].brick.locatx,100+tasker.brickc[i][j].brick.locaty,60,60, null);
         		}
         	}
+        	
+        	//beijing
+        	Mimage.getGraphics().drawImage(yy, mousex-1360,mousey-777,null);
+        	
     		g.drawImage(Mimage,0,0,null);
         	
     		time-=40;
@@ -214,6 +221,8 @@ public class GameFrame extends ZFrame{
 		        	}
 		        	
 		        	Mimage3.getGraphics().drawImage(Mimage2,0,0,null);
+		        	
+		        	
 		        	
 		        	}catch(Exception e){
 		        		e.printStackTrace();

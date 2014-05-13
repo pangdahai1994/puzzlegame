@@ -44,7 +44,7 @@ public class MainFrame {
         //displaymode dpm=new displaymode();
         //dpm.setto1024();
 		//new GameFrame();
-		button[0] = ImageIO.read(new FileInputStream("ui\\buttons\\bg.png"));
+		button[0] = ImageIO.read(new FileInputStream("ui\\ui4\\log.png"));
 		button[1] = ImageIO.read(new FileInputStream("ui\\buttons\\button1.png"));
 		button[2] = ImageIO.read(new FileInputStream("ui\\buttons\\button2.png"));
 		button[3] = ImageIO.read(new FileInputStream("ui\\buttons\\button3.png"));

@@ -77,7 +77,7 @@ public class MainFrame {
 					((mousex<1230)&&(mousex>1107)&&(mousey>453)&&(mousey<502))||
 					((mousex<1240)&&(mousex>918)&&(mousey>533)&&(mousey<592)))
 					{
-						if ((cursorstate==1)&&(state==3)){
+						if ((cursorstate==1)&&(state==1)){
 						    mainframe.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 						    cursorstate=2;
 						    mp2=new MediaPlayer("ui\\button_click.mp3");

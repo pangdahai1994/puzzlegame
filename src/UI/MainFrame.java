@@ -26,6 +26,7 @@ import UI.MediaPlayer.PlayThread;
 public class MainFrame {
 	//static int jindu=0;
 	static int cursorstate=1;  //1代表原始鼠标 2代表手指
+	static boolean mousedown=false;
 	static Timer timer,timer2;
 	static Graphics g;
 	static Font font=new Font("宋体",Font.PLAIN,16);
@@ -44,6 +45,8 @@ public class MainFrame {
         //displaymode dpm=new displaymode();
         //dpm.setto1024();
 		//new GameFrame();
+		
+		
 		button[0] = ImageIO.read(new FileInputStream("ui\\ui4\\log.png"));
 		button[1] = ImageIO.read(new FileInputStream("ui\\buttons\\button1.png"));
 		button[2] = ImageIO.read(new FileInputStream("ui\\buttons\\button2.png"));
@@ -74,7 +77,7 @@ public class MainFrame {
 					((mousex<1230)&&(mousex>1107)&&(mousey>453)&&(mousey<502))||
 					((mousex<1240)&&(mousex>918)&&(mousey>533)&&(mousey<592)))
 					{
-						if (cursorstate==1){
+						if ((cursorstate==1)&&(state==3)){
 						    mainframe.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 						    cursorstate=2;
 						    mp2=new MediaPlayer("ui\\button_click.mp3");
@@ -110,6 +113,37 @@ public class MainFrame {
         });
         mainframe.addMouseListener(new MouseAdapter(){
    		     public void mouseClicked(MouseEvent event){
+		       // if (jindu<1080) jindu=1080;
+		        
+		        if ((state==1)&&(mousex<1240)&&(mousex>918)&&(mousey>533)&&(mousey<592)) System.exit(0);
+		        if ((state==1)&&(mousex<1240)&&(mousex>918)&&(mousey>364)&&(mousey<432)){
+		        	//开始游戏
+		        	//timer2.cancel();
+		        }
+		        if ((state==1)&&(mousex<1091)&&(mousex>918)&&(mousey>453)&&(mousey<502)){
+		        	//单机游戏
+		        	timer.cancel();
+		        	timer2.cancel();
+		        	//state=2;
+		        	try {
+		        		mp.isStop=true;
+						gf=new GameFrame();
+						Thread.sleep(1000);
+						gf.setAlwaysOnTop(true);
+						mainframe.setAlwaysOnTop(false);
+			        	mainframe.removeAll();
+			        	mainframe.setVisible(false);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		        }
+   		     }
+   		     public void mousePressed(MouseEvent event){
+		       // if (jindu<1080) jindu=1080;
+                 
+   		     }
+   		     public void mouseReleased(MouseEvent event){
 		       // if (jindu<1080) jindu=1080;
 		        
 		        if ((state==1)&&(mousex<1240)&&(mousex>918)&&(mousey>533)&&(mousey<592)) System.exit(0);
@@ -154,12 +188,7 @@ public class MainFrame {
 		
 	}
 	
-	public static void startframe2(){
-		mp.stopmedia();
-		changeframe();
-		Graphics painter=mainframe.zpanel.getGraphics();
-		mainframe.paint("zairu.png",110,666);
-	}
+
 	
 	static class MyTask1 extends java.util.TimerTask{ 
         public void run() {

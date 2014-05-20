@@ -36,7 +36,7 @@ public class GameFrame extends ZFrame{
     static boolean mousedown=false,mouseup=false;
     static BufferedImage iimage[]=new BufferedImage[8];
     static ZFrame zf;
-    GameFrame() throws FileNotFoundException, IOException{
+    public GameFrame() throws FileNotFoundException, IOException{
     	yy= ImageIO.read(new FileInputStream("ui\\yy.png"));
     	
     	zf=this;

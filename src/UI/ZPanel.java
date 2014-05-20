@@ -23,16 +23,17 @@ import javax.swing.JPanel;
 public class ZPanel extends JPanel {
     /*public String path="back.jpg";
     public int x=0,y=0,imgx=0,imgy=0,width=1,height=1;*/
-	BufferedImage screenshot;
+	public BufferedImage screenshot,component;
+	
 	Toolkit tk=Toolkit.getDefaultToolkit();
     ZPanel(){
-    	this.setLayout(null);
+    	  this.setLayout(new BorderLayout());
     }
     
     public void paintComponent(Graphics g) {
-	      super.paintComponent(g);
 		  g.drawImage(screenshot,0,0,null);
-
+		  g.drawImage(component,0,0,null);
+		  //super.paintComponent(g);
 	}
 	
 	/*public void brush(String path,int x,int y){
@@ -160,6 +161,10 @@ public class ZPanel extends JPanel {
 		} catch (HeadlessException e1) {
 			e1.printStackTrace();
 		}*/
+    }
+	
+	public void save(BufferedImage img){
+				screenshot= img;
     }
 	
 	public void save(int x,int y,int width,int height){

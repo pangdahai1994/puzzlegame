@@ -22,17 +22,18 @@ import javax.swing.JTextField;
 import Objcts.ZButton;
 
 public class ZFrame extends JFrame {
+	int x,y;
 	Toolkit tk=Toolkit.getDefaultToolkit();
 	String titlestring="ZFrame";
 	String backgroundpath,sysiconpath;
-	ZPanel zpanel=new ZPanel();
+	public ZPanel zpanel=new ZPanel();
 	static int width=800;
 	static int height=600;
 	ZFrame zf=this;
 	TrayIcon trayIcon=null;
 	SystemTray tray = SystemTray.getSystemTray(); // 获得系统托盘
 	Graphics g;
-	ZFrame(){
+	public ZFrame(){
         this(width,height);
         //System.out.print("777");
 	}
@@ -43,7 +44,7 @@ public class ZFrame extends JFrame {
 	    //System.out.print("666");
 	}
 	
-	ZFrame(int width,int height){
+	public ZFrame(int width,int height){
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 		zpanel.setLayout(null);
@@ -53,6 +54,39 @@ public class ZFrame extends JFrame {
         this.setLocation((tk.getScreenSize().width-this.getWidth())/2, (tk.getScreenSize().height-this.getHeight())/2-15);
 	    this.add(zpanel);
 	    zpanel.setVisible(true);
+	    
+	    try {
+			createcomponent();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void MoveToMid() throws IOException{
+		this.setLocation((tk.getScreenSize().width-this.getWidth())/2, (tk.getScreenSize().height-this.getHeight())/2-15);
+	}
+	
+	public void createcomponent() throws IOException{
+		int width = 1366;
+		int height = 768;
+		// 创建BufferedImage对象
+		BufferedImage image = new BufferedImage(width, height,     BufferedImage.TYPE_INT_RGB);
+		// 获取Graphics2D
+		Graphics2D g2d = image.createGraphics();
+		// ----------  增加下面的代码使得背景透明  -----------------
+		image = g2d.getDeviceConfiguration().createCompatibleImage(width, height, Transparency.TRANSLUCENT);
+		g2d.dispose();
+		g2d = image.createGraphics();
+		// ----------  背景透明代码结束  -----------------
+		// 画图
+		g2d.setColor(new Color(255,0,0));
+		g2d.setStroke(new BasicStroke(1));
+		//g2d.draw
+		//释放对象
+		g2d.dispose();
+		// 保存文件    
+		zpanel.component=image;
 	}
 	
 	public void FullScreen(){
@@ -309,6 +343,41 @@ public class ZFrame extends JFrame {
 		     }
 		});	
 		zpanel.paint(state1, locationx, locationy, 0, 0, width, height);
+	}
+	
+	public void add(final ZButton zb){
+		this.addMouseListener(new MouseAdapter(){
+			 public void mousePressed(MouseEvent event){
+		            int x=event.getX(),y=event.getY();
+		            if ((x>=zb.locatex)&&(x<=zb.locatex+zb.width)&&(y>=zb.locatey)&&(y<=zb.locatey+zb.height)){
+		            	zpanel.component.getGraphics().drawImage(zb.state[2],zb.locatex,zb.locatey,null);
+		            }
+		     }
+			 
+			 public void mouseReleased(MouseEvent event){
+				 int x=event.getX(),y=event.getY();
+				 if ((x>=zb.locatex)&&(x<=zb.locatex+zb.width)&&(y>=zb.locatey)&&(y<=zb.locatey+zb.height)){
+		             zpanel.component.getGraphics().drawImage(zb.state[1],zb.locatex,zb.locatey,null);	 
+				 }
+		     }
+		});
+		this.addMouseMotionListener(new MouseAdapter(){
+			 public void mouseMoved(MouseEvent event){
+		            x=event.getX();
+		            y=event.getY();
+		            if ((x>=zb.locatex)&&(x<=zb.locatex+zb.width)&&(y>=zb.locatey)&&(y<=zb.locatey+zb.height)){
+		            	zpanel.component.getGraphics().drawImage(zb.state[1],zb.locatex,zb.locatey,null);
+		            }else{
+		            	zpanel.component.getGraphics().drawImage(zb.state[0],zb.locatex,zb.locatey,null);
+		            }
+		     }
+		});	
+		zpanel.component.getGraphics().drawImage(zb.state[0],zb.locatex,zb.locatey,null);
+		
+		if (zb.ma!=null){
+			this.addMouseListener(zb.ma);
+		}
+			
 	}
 	
 	/*public void addZButton(final ZButton zb){

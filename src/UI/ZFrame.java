@@ -26,7 +26,7 @@ public class ZFrame extends JFrame {
 	Toolkit tk=Toolkit.getDefaultToolkit();
 	String titlestring="ZFrame";
 	String backgroundpath,sysiconpath;
-	public ZPanel zpanel=new ZPanel();
+	public ZPanel zpanel;
 	static int width=800;
 	static int height=600;
 	ZFrame zf=this;
@@ -45,6 +45,7 @@ public class ZFrame extends JFrame {
 	}
 	
 	public ZFrame(int width,int height){
+		zpanel=new ZPanel();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 		zpanel.setLayout(null);

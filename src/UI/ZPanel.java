@@ -28,6 +28,7 @@ public class ZPanel extends JPanel {
 	Toolkit tk=Toolkit.getDefaultToolkit();
     ZPanel(){
     	  this.setLayout(new BorderLayout());
+    	  //screenshot=new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
     }
     
     public void paintComponent(Graphics g) {

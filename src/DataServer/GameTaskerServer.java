@@ -2,7 +2,7 @@ package DataServer;
 
 import Objcts.*;
 
-public class GameTasker {
+public class GameTaskerServer {
 	public boolean changeuseful=true;  //若为false，则会取消先前移动
 	public int unusefulx1,unusefuly1,unusefulx2,unusefuly2;
 	public boolean moving=false;  //是否有砖块正在移动
@@ -11,10 +11,14 @@ public class GameTasker {
 	public int score=0;                  //加多少分 是否已加
 	public static BrickContainer brickc[][]=new BrickContainer[9][9];
 	
-	public GameTasker(){
+	public GameTaskerServer(){
 		rndnew();
 		quchong();
 		guiwei();
+	}
+	
+	public GameTaskerServer gettasker(){
+		return this;
 	}
 	
 	public void guiwei(){

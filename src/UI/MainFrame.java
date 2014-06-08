@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -23,9 +24,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import blservice.PlayerBLService;
+import Objcts.Box;
 import Objcts.ZPasswordField;
 import Objcts.ZTextField;
 import UI.MediaPlayer.PlayThread;
+import rmi.RemoteFactory;
 
 public class MainFrame {
 	//static int jindu=0;
@@ -47,12 +51,17 @@ public class MainFrame {
     static BufferedImage[] button=new BufferedImage[10];
     static BufferedImage[] button2=new BufferedImage[10];
     static ArrayList<String> players=new ArrayList<String>(3);
+    
+    static RemoteFactory remote=new RemoteFactory();
+	static PlayerBLService playerservice=remote.getPlayerBLService();
+    
 	public static void main(String[] args) throws IOException {
 		//TODO Auto-generated method stub
         //displaymode dpm=new displaymode();
         //dpm.setto1024();
 		//new GameFrame();
 		
+
 		
 		button[0] = ImageIO.read(new FileInputStream("ui\\ui4\\log2.png"));
 		button[1] = ImageIO.read(new FileInputStream("ui\\buttons\\button1.png"));
@@ -71,18 +80,18 @@ public class MainFrame {
 		g=Mimage.getGraphics();
 		
         mainframe=new ZFrame();
-        mainframe.setAlwaysOnTop(true);
+        //mainframe.setAlwaysOnTop(true);
         mainframe.FullScreen();
 
         
-        BufferedReader br=new BufferedReader(new FileReader("playerInfo\\players"));
+       /* BufferedReader br=new BufferedReader(new FileReader("playerInfo\\players"));
         String line=null;
         while ((line=br.readLine())!=null){
         	playernum++;
         	players.add(line);
         }
         br.close();
-        
+        */
         mainframe.addMouseMotionListener(new MouseAdapter(){
 			 public void mouseMoved(MouseEvent event){
 				 mousex=event.getX();
@@ -132,11 +141,19 @@ public class MainFrame {
 		        
 		        if ((state==1)&&(mousex<1240)&&(mousex>918)&&(mousey>533)&&(mousey<592)) System.exit(0);
 		        if ((state==1)&&(mousex<1240)&&(mousex>918)&&(mousey>364)&&(mousey<432)){
-		        if (login(zt.getText(),zp.getPassword().toString())){
-                     //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-		        }else{
+		            //startgame
+		        	try {
+		        		
+						String message=playerservice.login(zt.getText(), zp.getText());
+						if (message.equals("")) new RoomList();//////////ÉÐÐèÐÞ¸Ä
+						else
+						new Box("",message);
+						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 		        	
-		        }
 		        }
 		        
 		        if ((state==1)&&(mousex<1091)&&(mousex>918)&&(mousey>453)&&(mousey<502)){

@@ -1,5 +1,9 @@
 package Objcts;
-public class Brick {
+
+import java.io.Serializable;
+import java.rmi.Remote;
+
+public class Brick implements Remote,Serializable{
     public int locatx,locaty; //在第x行第y个容器里
     public int x,y;   //在x,y像素
     public int style;  //砖块类型 1~6

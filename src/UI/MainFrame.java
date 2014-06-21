@@ -53,7 +53,7 @@ public class MainFrame {
     static ArrayList<String> players=new ArrayList<String>(3);
     
     static RemoteFactory remote=new RemoteFactory();
-	static PlayerBLService playerservice=remote.getPlayerBLService();
+	//static PlayerBLService playerservice=remote.getPlayerBLService();
     
 	public static void main(String[] args) throws IOException {
 		//TODO Auto-generated method stub
@@ -144,10 +144,16 @@ public class MainFrame {
 		            //startgame
 		        	try {
 		        		
-						String message=playerservice.login(zt.getText(), zp.getText());
+						/*String message=playerservice.login(zt.getText(), zp.getText());
 						if (message.equals("")) new RoomList();//////////ÉÐÐèÐÞ¸Ä
 						else
-						new Box("",message);
+						new Box("",message);*/
+						mainframe.removeAll();
+						mainframe.setVisible(false);
+						timer.cancel();
+						timer2.cancel();
+						mp.isStop=true;
+						new chooseframe();
 						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
